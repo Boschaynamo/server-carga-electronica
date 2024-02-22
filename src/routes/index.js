@@ -4,7 +4,13 @@ const path = require('path');
 const router = Router();
 
 router.get('/data.cgi', (req, res) => {
-    res.status(200).json({ x: 160, y: Math.floor(Math.random() * (30 - 10 + 1)) + 10 });
+
+    const corriente = Math.floor(Math.random() * (30 - 10 + 1)) + 10 ;
+    const tension = Math.floor(Math.random() * (30 - 10 + 1)) * 10000;
+    const potencia = Math.floor(Math.random() * (30 - 10 + 1)) + 10;
+
+
+    res.status(200).json({ tension, corriente, potencia });
 });
 
 router.get('/page', (req, res) => {
