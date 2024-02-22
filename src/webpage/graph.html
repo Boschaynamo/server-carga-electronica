@@ -38,7 +38,6 @@
             background-repeat: repeat;
             height: 100%;
             width: 33.4%;
-
         }
     </style>
 </head>
@@ -73,7 +72,6 @@
         <canvas id='voltaje-canvas'></canvas>
         <canvas id='corriente-canvas'></canvas>
         <canvas id='potencia-canvas'></canvas>
-
     </div>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js'></script>
     <!-- <script src='http://localhost:3001/chart.js'></script> -->
@@ -87,10 +85,9 @@
             corrienteValues.push(0);
             voltajeValues.push(0)
             potenciaValues.push(0)
-        }
-
-        const whiteColorGraph = '#FFFFFF'
-        const gridColor = '#042e59'
+        };
+        const whiteColorGraph = '#FFFFFF';
+        const gridColor = '#042e59';
         const chartProperty = {
             type: 'line',
             data: {
@@ -114,7 +111,7 @@
                     yAxes: [{
                         scaleLabel: {
                             display: true,
-                            labelString: 'Tension (V)', // Name of the Y axis
+                            labelString: 'Tension (V)',
                             fontColor: whiteColorGraph
                         },
                         ticks: {
@@ -126,13 +123,13 @@
 
                         },
                         gridLines: {
-                            color: gridColor, // Setting grid color for y-axis here
+                            color: gridColor,
                         },
                     }],
                     xAxes: [{
                         scaleLabel: {
                             display: true,
-                            labelString: 'Tiempo', // Name of the Y axis
+                            labelString: 'Tiempo',
                             fontColor: whiteColorGraph
                         },
                         ticks: {
@@ -140,7 +137,7 @@
                             fontColor: whiteColorGraph,
                         },
                         gridLines: {
-                            color: gridColor, // Setting grid color for y-axis here
+                            color: gridColor,
                         }
                     }]
                 },
@@ -151,11 +148,9 @@
                 }
             },
 
-        }
-
+        };
         const chartCorrienteProperty = JSON.parse(JSON.stringify(chartProperty));
         const chartPotenciaProperty = JSON.parse(JSON.stringify(chartProperty));
-
         chartCorrienteProperty.data.datasets = [{
             label: 'Corriente',
             data: corrienteValues,
@@ -168,7 +163,7 @@
             cubicInterpolationMode: 'monotone',
             tension: 0.4
         }];
-        chartCorrienteProperty.options.scales.yAxes[0].scaleLabel.labelString = 'Corriente (A)'
+        chartCorrienteProperty.options.scales.yAxes[0].scaleLabel.labelString = 'Corriente (A)';
 
         chartPotenciaProperty.data.datasets = [{
             label: 'Potencia',
@@ -182,16 +177,10 @@
             cubicInterpolationMode: 'monotone',
             tension: 0.4
         }];
-
-        chartPotenciaProperty.options.scales.yAxes[0].scaleLabel.labelString = 'Potencia (W)'
-
+        chartPotenciaProperty.options.scales.yAxes[0].scaleLabel.labelString = 'Potencia (W)';
         var chartVoltaje = new Chart('voltaje-canvas', chartProperty);
-
         var chartCorriente = new Chart('corriente-canvas', chartCorrienteProperty);
         var chartPotencia = new Chart('potencia-canvas', chartPotenciaProperty);
-
-
-        //Add point function
         function addPoint() {
             fetch('/data.cgi').then(response => response.json()).then(({ corriente, tension, potencia, setpoint }) => {
                 const date = new Date();
@@ -206,7 +195,7 @@
                 xValues.push(`${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`);
                 corrienteValues.push(corriente);
                 voltajeValues.push(tension / 1000)
-                potenciaValues.push(potencia)
+                potenciaValues.push(potencia);
 
 
                 chartVoltaje.update();
@@ -215,9 +204,9 @@
                 console.log(corriente, tension, potencia);
             }).catch(() => console.log('Error from api'))
 
-        }
-        //Cada 1 seg agregar un punto proveniente de la api
+        };
         let identificadorIntervaloDeTiempo = setInterval(() => addPoint(), 1000);
     </script>
 </body>
+
 </html>
